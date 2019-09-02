@@ -142,11 +142,25 @@ class Usuario {
             ":LOGIN"=> $this->getDeslogin(),
             ":PASSWORD"=> $this->getDessenha(),
             ":ID"=> $this->getIdusuario()
-        ));       
+        ));               
+    }
+    
+    //Metodo para deletar os dados do BD
+    public function delete(){
         
+        $sql = new Sql();
+        
+        $sql->query("DELETE FROM tb_usuario WHERE idUsuario = :ID", array(
+           ":ID"=> $this->getIdusuario() 
+        ));
+        
+        $this->setIdusuario(0);
+	$this->setDeslogin("");
+        $this->setDessenha("");
+        $this->setDtcadastro(new DateTime());
     }
 
-        //Metodo construtor para preenchimento do login e senha diretamente no instanciamento do objeto
+    //Metodo construtor para preenchimento do login e senha diretamente no instanciamento do objeto
     public function __construct($login = "", $password = "") {
 
         $this->setDeslogin($login);
