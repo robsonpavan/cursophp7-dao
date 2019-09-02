@@ -11,6 +11,8 @@ class Sql extends PDO{
     
     //Metodo para associar os parâetros
     private function setParams($statement, $parameters = array()){
+        
+        //Varrendo o array com a lista de parâmetros passados para utilização no comando sql
         foreach($parameters as $key => $value){        
             $this->setParam($statement,$key, $value);
         } 
@@ -26,12 +28,16 @@ class Sql extends PDO{
     //$rawQuery = comando SQL que será tratado (receberá as váriávies no lugar das ???
     //$parms = parametros a serem substituídos no comando SQL
     public function query($rawQuery, $params = array()){
+        
         //Declarando que o comando SQL será tratado
         $stmt = $this->conn->prepare($rawQuery);
-        //Associando os parâmetros ao comando SQL
+        
+        //Associando os parâmetros ao comando SQL, chamando o metodo setParms para subtituir a "variável" do comando sql pelo valor a ser utilizado
         $this->setParams($stmt, $params);
+        
         //Executando o comando SQL
         $stmt->execute();
+        
         //Retornando o objeto com resultados
         return $stmt;
     }
